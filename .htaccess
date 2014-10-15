@@ -1,0 +1,13 @@
+RewriteEngine On
+RewriteBase /saveart.su/
+
+ErrorDocument 403 /saveart.su/forbidden/
+ErrorDocument 404 /saveart.su/notfound/
+RewriteRule (cp)[\/]{0,}$ - [L]
+RewriteRule pages.*?\.html$ - [F]
+RewriteRule templates.*?\.php$ - [F]
+RewriteRule incs.*?\.php$ - [F]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(?:([^/]+)|)(?:/([^/]+)|)/?$ index.php?p=$1&sp=$2 [L,QSA]

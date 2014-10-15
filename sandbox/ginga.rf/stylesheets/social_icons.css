@@ -1,0 +1,45 @@
+[class^="social-"],
+[class*=" social-"] {
+	display: inline-block;
+	min-width: 62px;
+	height: 62px;
+	line-height: 62px;
+	vertical-align: text-top;
+	background-repeat: no-repeat;
+	background-image: url(images/icon.hands.png);
+	margin: 00px 0px 0px 0px;
+}
+
+.social-vkontakte{
+	background-position-x: -15px;
+	background-position-y: -15px;
+}
+.social-facebook{
+	background-position-x: -92px;
+	background-position-y: -15px;
+}
+.social-twitter{
+	background-position-x: -169px;
+	background-position-y: -15px;
+}
+.social-google{
+	background-position-x: -246px;
+	background-position-y: -15px;
+}
+.social-livejournal{
+	background-position-x: -15px;
+	background-position-y: -92px;
+}
+.social-email{
+	background-position-x: -169px;
+	background-position-y: -169px;
+}
+.social-phone{
+	background-image: url(images/phone.png);
+	background-color: #282828;
+	color: #fff;
+	line-height: 62px;
+	font-size: 35pt;
+	padding-left: 60px;
+	padding-right: 10px;
+}

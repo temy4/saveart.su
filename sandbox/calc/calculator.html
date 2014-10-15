@@ -1,0 +1,688 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Narrow Jumbotron Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/fuelux.min.css">
+
+    <!-- Custom styles for this template -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/fuelux.min.js"></script>
+    <script src="js/fileinput.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      .form-col{
+        margin: 5px 0px 5px 0px;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="container fuelux">
+      <div class="modal fade" id="orderModal">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title">Оставить заказ</h4>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <p></p>
+                  <ul id="orderTab" class="nav nav-pills nav-stacked" style="max-width: 300px;" role="tablist">
+                    <li step="1" class="active"><a href="#contacts" role="tab" data-toggle="tab" data="1">Контактные данные</a></li>
+                    <li step="2" class="disabled"><a href="#company-info" role="tab" data-toggle="tab" data="2">О Компании</a></li>
+                    <li step="3" class="disabled"><a href="#calc" role="tab" data-toggle="tab" data="3">Калькулятор услуг</a></li>
+                    <li step="4" class="disabled"><a href="#order" role="tab" data-toggle="tab" data="4">Отправить заказ</a></li>
+                  </ul>
+                  <p></p>
+                  <div class="progress">
+                    <div id="wizard-progress" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="4">
+                      <span class="sr-only"></span>
+                    </div>
+                  </div>
+                  <h4 id="total_text" hidden>
+                    Итого: <span id="total"></span>
+                    <br/>
+                    <small id="support_text" hidden><p></p></small>
+                  </h4>
+                </div>
+                <div class="col-md-9">
+                  <div id="orderTabContent" class="tab-content">
+                    <div class="tab-pane fade active in" id="contacts">
+                      <h4>Шаг 1 из 4</h4>
+                      <div class="row">
+                        <div class="col-md-6 form-col">
+                          <input type="text" class="form-control" id="contact_company" placeholder="Компания">
+                        </div>
+                        <div class="col-md-6 form-col">
+                          <input type="text" class="form-control" id="contact_person" placeholder="Контактное лицо" data-toggle="popover" data-content="Это&nbsp;обязательное&nbsp;поле">
+                        </div>
+                        <div class="col-md-6 form-col">
+                          <input type="text" class="form-control" id="contact_email" placeholder="Электронный адрес">
+                        </div>
+                        <div class="col-md-6 form-col">
+                          <input type="text" class="form-control" id="contact_phone" placeholder="Телефон" data-toggle="popover" data-content="Необходимо заполнить хотя&nbsp;бы одно&nbsp;из&nbsp;полей &laquo;Электронный&nbsp;адрес&raquo; или &laquo;Телефон&raquo;">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 form-col">
+                          <input type="text" class="form-control" id="contact_country" placeholder="Страна">
+                        </div>
+                        <div class="col-md-6 form-col">
+                          <input type="text" class="form-control" id="contact_city" placeholder="Город">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="company-info">
+                      <h4>Шаг 2 из 4</h4>
+                      <div class="row">
+                        <div class="col-md-12 form-col">
+                          <textarea class="form-control" id="company_info" rows="5" placeholder="Пара слов о вашей компании, чтобы мы могли предложить вам интересные идеи"></textarea>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 form-col">
+                          <input type="file" class="btn-primary" id="company_file" title="Выбрать файл" data-filename-placement="outside" data-loading-text="Загрузка файла..."><br />
+                          <small>Вы можете прикрепить файл с описанием компании (doc / docx / pdf)<br />Максимальный размер файла: 3 МБ</small>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 form-col">
+                          <div class="alert alert-info" id="file-result-success" role="alert" hidden></div>
+                          <div class="alert alert-warning" id="file-result-failure" role="alert" hidden></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="calc">
+                      <h4>Шаг 3 из 4</h4>
+                      <div class="col-md-13 form-col">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <div class="input-group">
+                              <div class="btn-group selectlist open" data-resize="auto" data-initialize="selectlist" id="develop_select">
+                                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
+                                  <span class="selected-label" style="width: 68px;">Визитка (Комплект услуг D1)</span>
+                                  <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                  <li data-value="0"><a href="#">Самостоятельно выбрать услуги</a></li>
+                                  <li data-value="1"><a href="#">Визитка (Комплект услуг D1)</a></li>
+                                  <li data-value="2"><a href="#">Блог (Комплект услуг D2)</a></li>
+                                  <li data-value="3"><a href="#">Магазин (Комплект услуг D3)</a></li>
+                                </ul>
+                                <input class="hidden hidden-field" name="develop_select" readonly="readonly" aria-hidden="true" type="text">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="panel-body">
+                            <label class="radio-custom radio-inline srv-data-r" data-initialize="radio" id="develop_design-template">
+                              <input class="sr-only" name="develop_design" type="radio" value="template" cheched> Шаблонный дизайн
+                            </label>
+                            <label class="radio-custom radio-inline srv-data-r" data-initialize="radio" id="develop_design-unique">
+                              <input class="sr-only" name="develop_design" type="radio" value="unique"> Уникальный дизайн
+                            </label>
+                            <label class="radio-custom radio-inline srv-data-r" data-initialize="radio" id="develop_design-ready">
+                              <input class="sr-only" name="develop_design" type="radio" value="ready"> Есть готовый дизайн сайта
+                            </label>
+                            <hr />
+                            <p><small>Введите названия разделов (<span class="label label-info">Главная</span>, <span class="label label-info">О Компании</span>, <span class="label label-info">Услуги и цены</span> и так далее).
+                            Для добавления в список нового раздела, нажмите клавишу <kbd>Enter</kbd>.</small></p>
+                            <div id="develop_pages" class="pillbox pills-editable">
+                              <ul class="clearfix pill-group">
+                                <li class="pillbox-input-wrap btn-group">
+                                  <a class="pillbox-more">and <span class="pillbox-more-count"></span> more...</a>
+                                  <input type="text" class="form-control dropdown-toggle pillbox-add-item" placeholder="Новый раздел">
+                                  
+                                  <button type="button" class="dropdown-toggle sr-only">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                  </button>
+                                  <ul class="suggest dropdown-menu" role="menu" data-toggle="dropdown" data-flip="auto"></ul>
+                                </li>
+                              </ul>
+                            </div>
+                            <hr />
+                            <label class="checkbox-custom checkbox-inline srv-data-c" data-initialize="checkbox" id="develop_feedback">
+                              <input class="sr-only" type="checkbox" value="on">
+                              <span class="checkbox-label">Форма обратной связи</span>
+                            </label>
+                            <br />
+                            <label class="checkbox-custom checkbox-inline srv-data-c" data-initialize="checkbox" id="develop_cms">
+                              <input class="sr-only" type="checkbox" value="on">
+                              <span class="checkbox-label">Система управления сайтом</span>
+                            </label>
+                            <br />
+                            <label class="checkbox-custom checkbox-inline srv-data-c" data-initialize="checkbox" id="develop_eshop">
+                              <input class="sr-only" type="checkbox" value="on">
+                              <span class="checkbox-label">Система управления интернет-магазином</span>
+                            </label>
+                            <br />
+                            <label class="checkbox-custom checkbox-inline" data-initialize="checkbox" id="service_support">
+                              <input class="sr-only" type="checkbox" value="on">
+                              <span class="checkbox-label">Техническая поддержка</span>
+                            </label>
+                            <br />
+                            <div id="is-int" hidden>
+                              <label class="checkbox-custom checkbox-inline srv-data-c" data-initialize="checkbox" id="develop_int_1c">
+                                <input class="sr-only" type="checkbox" value="on">
+                                <span class="checkbox-label">Интеграция с 1С <small>(будет рассчитана отдельно)</small></span>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="support-panel" class="panel panel-default" hidden>
+                          <div class="panel-heading">
+                            <div class="input-group">
+                              <div class="btn-group selectlist open" data-resize="auto" data-initialize="selectlist" id="support_select">
+                                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
+                                  <span class="selected-label" style="width: 68px;">Тариф S1</span>
+                                  <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                  <li data-value="1"><a href="#">Тариф S1</a></li>
+                                  <li data-value="2"><a href="#">Тариф S2</a></li>
+                                  <li data-value="3"><a href="#">Тариф S3</a></li>
+                                  <li data-value="4"><a href="#">Тариф S4</a></li>
+                                </ul>
+                                <input class="hidden hidden-field" name="support_select" readonly="readonly" aria-hidden="true" type="text">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="panel-body">
+                            <ul id="support-1" class="list-group support-info">
+                              <li class="list-group-item"><i class="glyphicon glyphicon-th-list"></i> 5 заявок в месяц</li>
+                              <li class="list-group-item"><i class="glyphicon glyphicon-plus"></i> Дополнительная заявка: 1 000 рублей</li>
+                              <li class="list-group-item"><i class="glyphicon glyphicon-signal"></i> Приоритет: стандартный</li>
+                              <li class="list-group-item"><i class="glyphicon glyphicon-rur">&nbsp;</i> 5 000 рублей в месяц</li>
+                            </ul>
+                            <ul id="support-2" class="list-group support-info" hidden>
+                              <li class="list-group-item"><i class="glyphicon glyphicon-th-list"></i> 10 заявок в месяц</li>
+                              <li class="list-group-item"><i class="glyphicon glyphicon-plus"></i> Дополнительная заявка: 1 000 рублей</li>
+                              <li class="list-group-item"><i class="glyphicon glyphicon-signal"></i> Приоритет: высокий</li>
+                              <li class="list-group-item"><i class="glyphicon glyphicon-rur">&nbsp;</i> 7 000 рублей в месяц</li>
+                            </ul>
+                            <ul id="support-3" class="list-group support-info" hidden>
+                              <li class="list-group-item"><i class="glyphicon glyphicon-th-list"></i> 20 заявок в месяц</li>
+                              <li class="list-group-item"><i class="glyphicon glyphicon-plus"></i> Дополнительная заявка: 1 500 рублей</li>
+                              <li class="list-group-item"><i class="glyphicon glyphicon-signal"></i> Приоритет: высокий</li>
+                              <li class="list-group-item"><i class="glyphicon glyphicon-rur">&nbsp;</i> 10 000 рублей в месяц</li>
+                            </ul>
+                            <ul id="support-4" class="list-group support-info" hidden>
+                              <li class="list-group-item"><i class="glyphicon glyphicon-th-list"></i> Неограниченное число заявок</li>
+                              <li class="list-group-item"><i class="glyphicon glyphicon-signal"></i> Приоритет: премиум</li>
+                              <li class="list-group-item"><i class="glyphicon glyphicon-rur">&nbsp;</i> 20 000 рублей в месяц</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="order">
+                      <h4>Шаг 4 из 4</h4>
+                      <p>Спасибо за&nbsp;то, что уделили нам время. Надеемся на&nbsp;успешное сотрудничество. После нажатия кнопки &laquo;Отправить заказ&raquo;, мы получим информацию по почте и свяжемся с&nbsp;вами.</p>
+                      <div class="row">
+                        <div class="col-md-12 form-col">
+                          <div class="input-group pull-left">
+                            <div class="btn-group selectlist open" data-resize="auto" data-initialize="selectlist" id="send_call_hours">
+                              <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
+                                <span class="selected-label" style="width: 68px;">Позвонить: в любое время</span>
+                                <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu" role="menu">
+                                <li data-value="0"><a href="#">С вами можно связаться: в любое время</a></li>
+                                <li data-value="1"><a href="#">утром (9:00 - 11:00)</a></li>
+                                <li data-value="2"><a href="#">днём (12:00 - 16:00)</a></li>
+                                <li data-value="3"><a href="#">вечером (17:00 - 20:00)</a></li>
+                              </ul>
+                              <input class="hidden hidden-field" name="develop_select" readonly="readonly" aria-hidden="true" type="text">
+                            </div>
+                          </div>
+                          <div class="btn-group pull-right" data-toggle="buttons" id="send_call_days">
+                            <label class="btn btn-default">
+                              <input type="checkbox" name="send_call_days" value="1">ПН
+                            </label>
+                            <label class="btn btn-default">
+                              <input type="checkbox" name="send_call_days" value="2">ВТ
+                            </label>
+                            <label class="btn btn-default">
+                              <input type="checkbox" name="send_call_days" value="3">СР
+                            </label>
+                            <label class="btn btn-default">
+                              <input type="checkbox" name="send_call_days" value="4">ЧТ
+                            </label>
+                            <label class="btn btn-default">
+                              <input type="checkbox" name="send_call_days" value="5">ПТ
+                            </label>
+                            <label class="btn btn-default">
+                              <input type="checkbox" name="send_call_days" value="6">СБ
+                            </label>
+                            <label class="btn btn-default">
+                              <input type="checkbox" name="send_call_days" value="7">ВС
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 form-col">
+                          <textarea class="form-control" rows="5" id="send_info" placeholder="Дополнительные примечания"></textarea>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 form-col">
+                          <div class="alert alert-info" id="result-success" role="alert" hidden></div>
+                          <div class="alert alert-warning" id="result-failure" role="alert" hidden></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <button type="button" id="wizard-prev" class="btn btn-default navbar-btn hidden">Назад</button>
+                      <button type="button" id="wizard-next" class="btn btn-primary pull-right navbar-btn" data-loading-text="Отправка...">Далее</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <script>
+    var dbg = 0;
+      $(document).ready(function() {
+        var develop_pages = 0;
+        var control_develop_pages = true;
+        var price = 0;
+        var free_support = 0;
+
+        var items = $('#orderTab').children();
+        var current = 0;
+        var prev = 0;
+
+        var allown_fsize = 3;
+        var allown_formats = [
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'application/msword ',
+          'application/pdf'
+        ]
+
+        var prices = {
+          develop_feedback: 1500,
+          develop_cms: 5000,
+          develop_eshop: 7000,
+          develop_design_template: 5000,
+          develop_design_unique: 15000,
+          develop_design_ready: 0,
+          page: 500,
+          base_price: 7000,
+          free_develop_pages: 0
+        };
+
+        $('#orderModal').modal('show');
+        $('input[type=file]').bootstrapFileInput();
+        $('#develop_pages').pillbox();
+
+        $('#service_support').on('change', function () {
+          if( $('#service_support').checkbox('isChecked') ){
+            $('#support-panel').show();
+          }
+          else{
+            $('#support-panel').hide();
+          }
+        });
+
+        $('#develop_pages').on('added.fu.pillbox removed.fu.pillbox', function (item) {
+          calculate();
+        });
+
+        $('#develop_select').on('changed.fu.selectlist', function (evt, data) {
+          __select_develop(data.value);
+          calculate();
+        });
+
+        $('#support_select').on('changed.fu.selectlist', function (evt, data) {
+          $('.support-info').hide();
+          $('#support-' + data.value).show();
+          calculate();
+        });
+
+        $(".nav-pills li").on("click", function(e) {
+          if ( $(this).hasClass("disabled") ) {
+            e.preventDefault();
+            return false;
+          }
+          else{
+            prev = current;
+            step = $(this).attr('step') - 1;
+
+            if ( __validate( prev ) ){
+              move_progress(step);
+              current = step;
+            }
+            else{
+              $('#orderTab li:eq(' + prev + ') a').tab('show');
+            }
+          }
+        });
+        
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+          if ( !__validate( prev ) ){
+            e.preventDefault();
+            $('#orderTab li:eq(' + prev + ') a').tab('show');
+          }
+          if( current + 1 >= items.length ){
+            $('#wizard-next').text('Отправить заказ');
+          }
+          else{
+            $('#wizard-next').text('Далее');
+          }
+          if( current - 1 >= 0 ){
+            $('#wizard-prev').removeClass('hidden');
+          }
+          else{
+            $('#wizard-prev').addClass('hidden');
+          }
+          move_progress(current);
+        })
+
+        var __validate = function( step ){
+
+          var passed = true;
+          $('div.form-col').removeClass('has-error');
+
+          switch ( step ){
+            case 0:
+              if ( passed && $('#contact_person').val().length == 0 ){
+                $('#contact_person').parents('div.form-col').addClass('has-error');
+                $('#contact_person').popover('show');
+                passed = false;
+              }
+              if ( passed && $('#contact_email').val().length == 0 && $('#contact_phone').val().length == 0 ){
+                $('#contact_email').parents('div.form-col').addClass('has-error');
+                $('#contact_phone').parents('div.form-col').addClass('has-error');
+                $('#contact_phone').popover('show');
+                passed = false;
+              }
+              break;
+          }
+          if ( !passed ){
+            $('#orderTab li:eq(' + step + ') a').tab('show');
+          }
+          return passed;
+        }
+
+        var __select_develop = function ( srv ){
+          // set values to default
+          develop_pages = 0;
+          support = 1;
+          price = 0;
+          $('#is-int').hide();
+          $('.srv-data-r').radio('uncheck');
+          $('.srv-data-c').checkbox('uncheck');
+
+          switch ( srv ){
+            case 0:
+              $('#is-int').show();
+              control_develop_pages = true;
+              prices.free_develop_pages = 0;
+              free_support = 0;
+              break;
+            case 1:
+              free_support = 1;
+              prices.free_develop_pages = 7;
+              $('#develop_design-template').radio('check');
+              $('#develop_feedback').checkbox('check');
+              control_develop_pages = true;
+              break;
+            case 2:
+              free_support = 1;
+              prices.free_develop_pages = 7;
+              $('#develop_design-unique').radio('check');
+              $('#develop_feedback').checkbox('check');
+              $('#develop_cms').checkbox('check');
+              control_develop_pages = false;
+              break;
+            case 3:
+              free_support = 2;
+              prices.free_develop_pages = 43;
+              $('#develop_design-unique').radio('check');
+              $('#is-int').show();
+              $('#develop_feedback').checkbox('check');
+              $('#develop_cms').checkbox('check');
+              $('#develop_eshop').checkbox('check');
+              control_develop_pages = false;
+              break;
+          }
+        }
+
+        $('.sr-only').click(function(){
+          calculate();
+        })
+
+        var move_progress = function ( pos ){
+          var prc = (pos / (items.length - 1) ) * 100;
+          $('#wizard-progress').css('width', prc + '%').attr('aria-valuenow', prc); 
+        }
+
+        var calculate = function ( ){
+          develop_pages = $('#develop_pages').pillbox('itemCount');
+          if ( $('#develop_select').selectlist('selectedItem').value == 0 ){
+            price = prices.base_price;
+          }
+          else{
+            price = 0;
+          }
+
+          price += $('#develop_design-template').radio('isChecked') ? prices.develop_design_template : 0;
+          price += $('#develop_design-unique').radio('isChecked')   ? prices.develop_design_unique   : 0;
+
+          price += $('#develop_feedback').checkbox('isChecked') ? prices.develop_feedback : 0;
+          price += $('#develop_cms').checkbox('isChecked')      ? prices.develop_cms      : 0;
+          price += $('#develop_eshop').checkbox('isChecked')    ? prices.develop_eshop    : 0;
+          if ( control_develop_pages && develop_pages > prices.free_develop_pages ){
+            price += (develop_pages * prices.page);
+          }
+          else{
+            price += (prices.free_develop_pages * prices.page)
+          }
+          price = price < prices.base_price ? prices.base_price : price;
+
+          if ( price > 0 ){
+            $('#total_text').show();
+          }
+          else{
+            $('#total_text').hide();
+          }
+
+          support = 0;
+          if ( $('#service_support').checkbox('isChecked') && price > 0){
+            switch ( $('#support_select').selectlist('selectedItem').value ){
+              case 1:
+                support = 5000;
+                break;
+              case 2:
+                support = 7000;
+                break;
+              case 3:
+                support = 10000;
+                break;
+              case 4:
+                support = 20000;
+                break;
+            }
+            $('#support_text p').html( 'поддержка:&nbsp;' + prettify(support) + '&nbsp;рублей&nbsp;в&nbsp;месяц' );
+            if ( free_support > 0 ){
+              $('#support_text p').append('<br />');
+              $('#support_text p').append( numtostr(free_support, ['месяц', 'месяца', 'месяцев']) + '&nbsp;бесплатно' );
+            }
+            $('#support_text').show();
+          }
+          else{
+            $('#support_text').hide(); 
+          }
+
+          $('#total').html( prettify(price) );
+        }
+
+        var set_services = function ( id ){
+          $('#develop_select').selectlist('selectByIndex', id);
+          __select_develop( id );
+        }
+
+        var prettify = function( number ){
+          number += '';
+          x = number.split('&nbsp;');
+          x1 = x[0];
+          x2 = x.length > 1 ? '&nbsp;' + x[1] : '';
+          var rgx = /(\d+)(\d{3})/;
+          while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + '&nbsp;' + '$2');
+          }
+          return x1 + x2;
+        }
+
+        numtostr = function ( number, titles )  {  
+          cases = [2, 0, 1, 1, 1, 2];  
+          return number + '&nbsp;' + titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];  
+        } 
+
+        function send_order () {
+          $('#wizard-next').button('loading');
+          
+          var callDays = [];
+          $('input[name=send_call_days]:checked').each(function() { callDays.push($(this).val()); })
+
+          var request = $.ajax({
+            url: "script.php",
+            type: "POST",
+            data: {
+              // Contact data
+              contact_company  : $('#contact_company').val(),
+              contact_person   : $('#contact_person').val(),
+              contact_phone    : $('#contact_phone').val(),
+              contact_email    : $('#contact_email').val(),
+              contact_country  : $('#contact_country').val(),
+              contact_city     : $('#contact_city').val(),
+              // Company additional info
+              company_info     : $('#company_info').val(),
+              company_file     : $('#contact_file').val(),
+              // Shopping cart info
+              develop_select   : $('#develop_select').selectlist('selectedItem'),
+              develop_design   : $('input[name=develop_design]:checked').val(),
+              develop_pages    : $('#develop_pages').pillbox('items'),
+              develop_feedback : $('#develop_feedback').checkbox('isChecked') ? 1 : 0,
+              develop_cms      : $('#develop_cms').checkbox('isChecked') ? 1 : 0,
+              develop_eshop    : $('#develop_eshop').checkbox('isChecked') ? 1 : 0,
+              develop_int_1c   : $('#develop_int_1c').checkbox('isChecked') ? 1 : 0,
+              service_support  : $('#service_support').checkbox('isChecked') ? 1 : 0,
+              support_select   : $('#support_select').selectlist('selectedItem'),
+              // Send order
+              send_call_hours  : $('#send_call_hours').selectlist('selectedItem'),
+              send_call_days   : callDays,
+              send_info        : $('#send_call_hours').val()
+            },
+            dataType: "html"
+          });
+           
+          request.done(function( msg ) {
+            $('#result-success').show();
+          });
+           
+          request.fail(function( jqXHR, textStatus ) {
+            $('#result-failure').show();
+          });
+
+          $('#wizard-next').button('reset')
+        }
+
+        $('#wizard-next').on('click', function(){
+          var res = __validate( current );
+          if( res ){
+            if( current + 1 <= items.length ){
+              $('#orderTab li:eq(' + (current + 1) + ')').removeClass('disabled');
+              $('#orderTab li:eq(' + (current + 1) + ') a').tab('show');
+              current++;
+            }
+            if ( current >= items.length ){
+              send_order();
+            }
+          }
+        })
+
+        $('#wizard-prev').on('click', function() {
+          if( current - 1 >= 0 ){
+            $('#orderTab li:eq(' + (current - 1) + ') a').tab('show');
+            current--;
+          }
+        });
+
+        $('#company_file').on('change', function() {
+          var fsize = $(this)[0].files[0].size;
+          var ftype = $(this)[0].files[0].type;
+
+          $('#file-result-success').hide();
+          $('#file-result-failure').hide();
+
+          $(this).loading();
+
+          if( fsize > allown_fsize * 1048576 ) {
+            h_size = Math.floor(fsize / 1048576);
+            $('#file-result-failure').html('Слишком большой файл (' + numtostr(h_size, ['мегабайт', 'мегабайта', 'мегабайт']) + '). Попробуйте загрузить файл меньшего размера Максимальный разрешенный размер файла: ' + numtostr(allown_fsize, ['мегабайт', 'мегабайта', 'мегабайт']) + ' мегабайта');
+            $('#file-result-failure').show();
+            $(this).reset();
+            return false;
+          }
+
+          if ( allown_formats.indexOf(ftype) < 0 ){
+            $('#file-result-failure').text('Некорректный формат файла. К загрузке разрешены только файлы типов DOC / DOCX (Microsoft Word) или PDF (Adobe Acrobat Reader)');
+            $('#file-result-failure').show();
+            $(this).reset();
+            return false;
+          }
+
+          var file = $(this).prop('files')[0];
+          var form_data = new FormData();
+
+          form_data.append('file', file)
+
+          $.ajax({
+            url: 'upload.php',
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,                         
+            type: 'POST',
+            success: function(data){
+              $('#file-result-success').text('Файл успешно загружен');
+              $('#file-result-success').show();
+              $('#company_file').reset();
+            },
+            error: function(data){
+              $('#file-result-failure').text('Не удалось загрузить файл');
+              $('#file-result-failure').show();
+              $('#company_file').reset();
+            }
+           });
+        })
+      })
+    </script>
+  </body>
+</html>
