@@ -32,7 +32,8 @@ if( isset($_FILES['file']) && $_FILES['file']['error'] == UPLOAD_ERR_OK ){
     }
     
     if ( $retCode > 0 ){
-    	$retMsg = $_FILES['file']['tmp_name'];
+    	$retMsg = 'ok';
+        $_FILES['file']['tmp_name'];
     }
 
     echo json_encode( array('code' => $retCode, 'message' => $retMsg) );
