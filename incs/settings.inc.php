@@ -11,5 +11,5 @@ $metaDescription = '';
 $overrideMenuSpaces = true;
 $debug = true;
 
-define('__CMS_INCLUDED__', true);
+define(__CMS_INCLUDED__, true);
 ?>

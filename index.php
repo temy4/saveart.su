@@ -1,5 +1,5 @@
 <?php require_once('incs/settings.inc.php'); ?>
-<?php include('incs/routes.inc.php'); ?>
+<?php require_once('incs/routes.inc.php'); ?>
 <?php getSubPage(); ?>
 <?php $page = getPage(); ?>
 <!DOCTYPE html>

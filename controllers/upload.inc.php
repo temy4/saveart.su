@@ -32,8 +32,15 @@ if( isset($_FILES['file']) && $_FILES['file']['error'] == UPLOAD_ERR_OK ){
     }
     
     if ( $retCode > 0 ){
-    	$retMsg = 'ok';
-        $_FILES['file']['tmp_name'];
+        global $rootPath;
+        if( move_uploaded_file($_FILES['file']['tmp_name'], $rootPath.'/upload/tmp/'.md5($_FILES['file']['name'].time()).preg_match('(\.[^.]+)$', $_FILES['file']['name'])) ){
+            $retMsg = md5($_FILES['file']['name'].time()).preg_match('(\.[^.]+)$', $_FILES['file']['name']);
+        }
+        else{
+            $retCode = -99;
+            http_response_code(413);
+            $retMsg = 'Unknown error. Can not write file';
+        }
     }
 
     echo json_encode( array('code' => $retCode, 'message' => $retMsg) );

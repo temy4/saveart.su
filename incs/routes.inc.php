@@ -58,7 +58,7 @@ function getSubPage(){
 	}
 	else {
 		if( array_key_exists($sp, $controllers) && file_exists('./controllers/'.$controllers[$sp]['src']) ) {
-			include('./controllers/'.$controllers[$sp]['src']);
+			require('./controllers/'.$controllers[$sp]['src']);
 		}
 		else{
 			http_response_code(404);

@@ -1,5 +1,5 @@
 <?php if( __CMS_INCLUDED__ ): ?>
-
+	
 <?php
     //check if this is an ajax request
     if (!isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
